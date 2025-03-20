@@ -1,0 +1,105 @@
+.multi-select {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+
+  .selected-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px; // Small gap between items
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 4px;
+    overflow-x: auto; // Enable horizontal scrolling
+    white-space: nowrap; // Prevent wrapping
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &.single-line {
+      flex-wrap: nowrap; // Ensure single line
+      overflow-x: auto; // Enable horizontal scrolling
+    }
+
+    &:focus-within {
+      border-color: #007bff; // Add border color on focus
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); // Add focus ring
+    }
+
+    .selected-value {
+      background: #f1f1f1;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+
+      &.focused {
+        border: 1px solid #007bff; // Add border to focused selected option
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: 4px;
+        padding: 0;
+        color: #666;
+        transition: color 0.2s;
+
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+
+    .small-input {
+      width: 2px; // Very small initial width
+      border: none;
+      outline: none;
+      padding: 2px;
+      margin: 0;
+      flex-grow: 1;
+      min-width: 2px; // Ensure it doesn't collapse
+      font-size: 14px;
+      background: transparent;
+
+      &:focus {
+        outline: none; // Remove default focus outline
+      }
+    }
+  }
+
+  .options-list {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background: white;
+    z-index: 1000;
+    margin-top: 4px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add box-shadow to dropdown
+    transition: opacity 0.2s, visibility 0.2s;
+
+    .option {
+      padding: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+
+      &:hover,
+      &.highlighted {
+        background: #f1f1f1; // Highlight on hover or keyboard navigation
+      }
+
+      &.custom-option {
+        color: #007bff;
+        font-style: italic;
+      }
+    }
+  }
+}

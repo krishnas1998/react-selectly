@@ -1,0 +1,55 @@
+{
+  "name": "react-selectly",
+  "version": "1.0.0",
+  "description": "A flexible and customizable multi-select dropdown component for React. Supports tag-like selection, keyboard navigation, and custom options. Designed to be lightweight and easy to use.",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack --watch"
+  },
+  "keywords": [
+    "react",
+    "select",
+    "dropdown",
+    "multi-select",
+    "single-select",
+    "tag-select",
+    "ui",
+    "component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/krishnas1998/react-selectly.git"
+  },
+  "author": "Krishna <mr.krishnas1997@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krishnas1998/react-selectly/issues"
+  },
+  "homepage": "https://github.com/krishnas1998/react-selectly#readme",
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.22.0",
+    "eslint-plugin-react": "^7.37.4",
+    "sass": "^1.86.0",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
+  }
+}
