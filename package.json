@@ -1,6 +1,6 @@
 {
   "name": "react-selectly",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A flexible and customizable multi-select dropdown component for React. Supports tag-like selection, keyboard navigation, and custom options. Designed to be lightweight and easy to use.",
   "main": "dist/index.js",
   "files": [
