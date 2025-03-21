@@ -6,6 +6,10 @@ interface MultiSelectProps {
   placeholder?: string; // Placeholder text for the input
   maxLines?: number; // Maximum number of lines for the selected values
   allowCustomOptions?: boolean; // Allow users to add custom options
+  initialValue?: string[]; // Initial selected values
+  onChange?: (selectedValues: string[]) => void; // Callback when selected values change
+  className?: string; // Custom class name for the root container
+  keepOptionsOnSelect?: boolean; // Keep original options in the dropdown after selection
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -13,8 +17,12 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   placeholder,
   maxLines = 1,
   allowCustomOptions = false, // Default to false
+  initialValue = [], // Default to empty array
+  onChange,
+  className = '', // Default to empty string
+  keepOptionsOnSelect = false, // Default to false
 }) => {
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = useState<string[]>(initialValue);
   const [inputValue, setInputValue] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1); // Track focused position for input
@@ -46,18 +54,19 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
   // Handle selecting an option
   const handleSelect = (option: string) => {
-    if (!selectedValues.includes(option)) {
-      const newSelectedValues = [...selectedValues];
-      if (focusedIndex !== -1) {
-        // Insert the new option at the focused index + 1
-        newSelectedValues.splice(focusedIndex + 1, 0, option);
-        setFocusedIndex(focusedIndex + 1); // Move focus to the newly inserted option
-      } else {
-        // Add the new option to the end
-        newSelectedValues.push(option);
-        setFocusedIndex(newSelectedValues.length - 1); // Move focus to the newly added option
-      }
-      setSelectedValues(newSelectedValues);
+    const newSelectedValues = [...selectedValues];
+    if (focusedIndex !== -1) {
+      // Insert the new option at the focused index + 1
+      newSelectedValues.splice(focusedIndex + 1, 0, option);
+      setFocusedIndex(focusedIndex + 1); // Move focus to the newly inserted option
+    } else {
+      // Add the new option to the end
+      newSelectedValues.push(option);
+      setFocusedIndex(newSelectedValues.length - 1); // Move focus to the newly added option
+    }
+    setSelectedValues(newSelectedValues);
+    if (onChange) {
+      onChange(newSelectedValues); // Notify parent component of the change
     }
     setInputValue('');
     setIsOpen(true); // Keep the dropdown open
@@ -70,6 +79,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const handleRemove = (index: number) => {
     const newSelectedValues = selectedValues.filter((_, i) => i !== index);
     setSelectedValues(newSelectedValues);
+    if (onChange) {
+      onChange(newSelectedValues); // Notify parent component of the change
+    }
     if (focusedIndex >= newSelectedValues.length) {
       setFocusedIndex(newSelectedValues.length - 1); // Adjust focus if removed item was last
     }
@@ -92,18 +104,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       handleRemove(focusedIndex);
       setFocusedIndex(focusedIndex - 1); // Move focus left after removal
     } else if (e.key === 'Enter') {
-      if (inputValue.trim() !== '') {
-        if (allowCustomOptions && !options.includes(inputValue)) {
-          // Add the custom option to the selected values
-          handleSelect(inputValue);
-        } else if (isOpen && filteredOptions.length > 0) {
-          // Select the highlighted option or the first option on Enter
-          const optionToSelect =
-            highlightedOptionIndex !== -1
-              ? filteredOptions[highlightedOptionIndex]
-              : filteredOptions[0];
-          handleSelect(optionToSelect);
-        }
+      if (isOpen && filteredOptions.length > 0) {
+        // Select the highlighted option or the first option on Enter
+        const optionToSelect =
+          highlightedOptionIndex !== -1
+            ? filteredOptions[highlightedOptionIndex]
+            : filteredOptions[0];
+        handleSelect(optionToSelect);
+      } else if (inputValue.trim() !== '' && allowCustomOptions && !options.includes(inputValue)) {
+        // Add the custom option to the selected values
+        handleSelect(inputValue);
       }
     } else if (e.key === 'ArrowDown') {
       // Move highlight to the next option in the dropdown
@@ -160,12 +170,12 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   // Filter options based on input value and already selected values
   const filteredOptions = options.filter(
     (option) =>
-      !selectedValues.includes(option) &&
+      (keepOptionsOnSelect || !selectedValues.includes(option)) &&
       option.toLowerCase().includes(inputValue.toLowerCase())
   );
 
   return (
-    <div className="multi-select" ref={dropdownRef}>
+    <div className={`multi-select ${className}`} ref={dropdownRef}>
       {/* Hidden span to measure the width of the input's value */}
       <span
         ref={hiddenSpanRef}

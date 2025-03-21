@@ -37,7 +37,12 @@ const options: string[] = [
   'Fig',
   'Grape',
 ];
-
+const [selectedValues, setSelectedValues] = useState<string[]>(['Apple', 'Banana']); // Initial values
+  const handleChange = (newSelectedValues: string[]) => {
+    console.log('Selected Values:', newSelectedValues);
+    setSelectedValues(newSelectedValues);
+}
+;
 const App: React.FC = () => {
   return (
     <div className="App">
@@ -47,6 +52,10 @@ const App: React.FC = () => {
         placeholder="Select fruits..."
         maxLines={1}
         allowCustomOptions={true} // Enable custom options
+        initialValue={selectedValues} // Pass initial values
+        onChange={handleChange} // Handle changes
+        className="custom-multi-select" // Custom class name
+        keepOptionsOnSelect={true} // Keep original options in the dropdown
       />
     </div>
   );
@@ -63,4 +72,7 @@ export default App;
 | `options`          | `string[]`      | `[]`          | Array of options to display.                    |
 | `placeholder`      | `string`        | `''`          | Placeholder text for the input.                 |
 | `allowCustomOptions` | `boolean`     | `false`       | Allow users to add custom options.              |
-| `maxLines`         | `number`        | `1`           | Maximum number of lines for selected values.    |
+| `initialValue`         | `string[]`        | `[]`           | Maximum number of lines for selected values.    |
+| `onChange`         | `(selectedValues: string[]) => void` | `undefined`           | Handle changes.   |
+| `className`         | `string`        | ``           | Custom class name    |
+| `keepOptionsOnSelect`  | `boolena`    | `1`           | Keep original options in the dropdown   |
