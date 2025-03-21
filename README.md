@@ -56,6 +56,7 @@ const App: React.FC = () => {
         onChange={handleChange} // Handle changes
         className="custom-multi-select" // Custom class name
         keepOptionsOnSelect={true} // Keep original options in the dropdown
+        dropDownAlwaysOpen={true}
       />
     </div>
   );
@@ -76,3 +77,4 @@ export default App;
 | `onChange`         | `(selectedValues: string[]) => void` | `undefined`           | Handle changes.   |
 | `className`         | `string`        | ``           | Custom class name    |
 | `keepOptionsOnSelect`  | `boolena`    | `1`           | Keep original options in the dropdown   |
+| `dropDownAlwaysOpen`  | `boolena`    | `false`           | It will always keep the dropdown open  |

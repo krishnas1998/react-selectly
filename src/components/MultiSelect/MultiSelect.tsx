@@ -10,6 +10,7 @@ interface MultiSelectProps {
   onChange?: (selectedValues: string[]) => void; // Callback when selected values change
   className?: string; // Custom class name for the root container
   keepOptionsOnSelect?: boolean; // Keep original options in the dropdown after selection
+  dropDownAlwaysOpen?: boolean;
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -20,7 +21,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   initialValue = [], // Default to empty array
   onChange,
   className = '', // Default to empty string
-  keepOptionsOnSelect = false, // Default to false
+  keepOptionsOnSelect = false, // Default to false,
+  dropDownAlwaysOpen = false,
 }) => {
   const [selectedValues, setSelectedValues] = useState<string[]>(initialValue);
   const [inputValue, setInputValue] = useState<string>('');
@@ -154,7 +156,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const handleInputBlur = () => {
     // Use setTimeout to check the active element after the blur event
     setTimeout(() => {
-      if (!dropdownRef.current?.contains(document.activeElement)) {
+      if (!dropDownAlwaysOpen && !dropdownRef.current?.contains(document.activeElement)) {
         setIsOpen(false); // Hide the dropdown if focus is outside the component
       }
     }, 0);
